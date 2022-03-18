@@ -1,0 +1,44 @@
+##################################################################################################
+# rating service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: rating
+  labels:
+    app: rating
+    service: rating
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: rating
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rating-v1
+  labels:
+    app: rating
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rating
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: rating
+        version: v1
+    spec:
+      containers:
+      - name: rating
+        image: leftwing871/rating:1.0.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+        securityContext:
+          runAsUser: 1000

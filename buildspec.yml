@@ -20,3 +20,4 @@ phases:
   post_build:
     commands:
       - kubectl apply -f ./rating.yaml
+      - kubectl get svc | grep rating
